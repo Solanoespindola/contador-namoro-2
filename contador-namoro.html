@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#ff6b9d">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Nosso Amor ❤️</title>
+    <link rel="manifest" href="manifest.json">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: white;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 40px 30px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .heart-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            10%, 30% { transform: scale(1.1); }
+            20% { transform: scale(0.95); }
+        }
+
+        h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .subtitle {
+            font-size: 1.1em;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .setup-form {
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 0.95em;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: 600;
+            background: linear-gradient(135deg, #ff6b9d 0%, #c06c84 100%);
+            color: white;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .counter-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .counter-item {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            padding: 20px 15px;
+        }
+
+        .counter-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .counter-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .time-display {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .time-value {
+            font-size: 1.5em;
+            font-weight: 600;
+        }
+
+        .edit-button {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px 20px;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 400px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
+            .counter-value {
+                font-size: 2em;
+            }
+            
+            h1 {
+                font-size: 1.6em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="heart-icon">❤️</div>
+        
+        <div id="setupScreen" class="setup-form">
+            <h1>Nosso Amor</h1>
+            <p class="subtitle">Configure o início do relacionamento</p>
+            
+            <div class="input-group">
+                <label for="startDate">Data de início:</label>
+                <input type="date" id="startDate" required>
+            </div>
+            
+            <div class="input-group">
+                <label for="startTime">Horário (opcional):</label>
+                <input type="time" id="startTime" value="00:00">
+            </div>
+            
+            <div class="input-group">
+                <label for="partner1">Seu nome:</label>
+                <input type="text" id="partner1" placeholder="Digite seu nome">
+            </div>
+            
+            <div class="input-group">
+                <label for="partner2">Nome do(a) parceiro(a):</label>
+                <input type="text" id="partner2" placeholder="Digite o nome">
+            </div>
+            
+            <button onclick="startCounter()">Iniciar Contador ❤️</button>
+        </div>
+        
+        <div id="counterScreen" class="hidden">
+            <h1 id="coupleNames">Nosso Amor</h1>
+            <p class="subtitle" id="startDateDisplay"></p>
+            
+            <div class="counter-grid">
+                <div class="counter-item">
+                    <span class="counter-value" id="years">0</span>
+                    <span class="counter-label">Anos</span>
+                </div>
+                <div class="counter-item">
+                    <span class="counter-value" id="months">0</span>
+                    <span class="counter-label">Meses</span>
+                </div>
+                <div class="counter-item">
+                    <span class="counter-value" id="days">0</span>
+                    <span class="counter-label">Dias</span>
+                </div>
+                <div class="counter-item">
+                    <span class="counter-value" id="hours">0</span>
+                    <span class="counter-label">Horas</span>
+                </div>
+            </div>
+            
+            <div class="time-display">
+                <div class="time-value">
+                    <span id="minutes">00</span>:<span id="seconds">00</span>
+                </div>
+                <div class="counter-label">Minutos : Segundos</div>
+            </div>
+            
+            <button class="edit-button" onclick="editSettings()">Editar Configurações</button>
+        </div>
+    </div>
+
+    <script>
+        let startDateTime;
+        let counterInterval;
+
+        // Carrega dados salvos ao iniciar
+        window.onload = function() {
+            const saved = localStorage.getItem('loveCounterData');
+            if (saved) {
+                const data = JSON.parse(saved);
+                startDateTime = new Date(data.startDateTime);
+                document.getElementById('coupleNames').textContent = data.names;
+                document.getElementById('startDateDisplay').textContent = formatStartDate(startDateTime);
+                document.getElementById('setupScreen').classList.add('hidden');
+                document.getElementById('counterScreen').classList.remove('hidden');
+                startCounterInterval();
+            }
+        };
+
+        function startCounter() {
+            const dateInput = document.getElementById('startDate').value;
+            const timeInput = document.getElementById('startTime').value;
+            const partner1 = document.getElementById('partner1').value.trim();
+            const partner2 = document.getElementById('partner2').value.trim();
+
+            if (!dateInput) {
+                alert('Por favor, insira a data de início do relacionamento!');
+                return;
+            }
+
+            startDateTime = new Date(dateInput + 'T' + timeInput);
+            
+            let names = 'Nosso Amor ❤️';
+            if (partner1 && partner2) {
+                names = `${partner1} ❤️ ${partner2}`;
+            }
+
+            // Salva no localStorage
+            localStorage.setItem('loveCounterData', JSON.stringify({
+                startDateTime: startDateTime.toISOString(),
+                names: names
+            }));
+
+            document.getElementById('coupleNames').textContent = names;
+            document.getElementById('startDateDisplay').textContent = formatStartDate(startDateTime);
+            document.getElementById('setupScreen').classList.add('hidden');
+            document.getElementById('counterScreen').classList.remove('hidden');
+            
+            startCounterInterval();
+        }
+
+        function startCounterInterval() {
+            updateCounter();
+            counterInterval = setInterval(updateCounter, 1000);
+        }
+
+        function updateCounter() {
+            const now = new Date();
+            const diff = now - startDateTime;
+
+            // Calcula os valores
+            const seconds = Math.floor(diff / 1000);
+            const minutes = Math.floor(seconds / 60);
+            const hours = Math.floor(minutes / 60);
+            const days = Math.floor(hours / 24);
+
+            // Calcula anos e meses de forma mais precisa
+            let years = now.getFullYear() - startDateTime.getFullYear();
+            let months = now.getMonth() - startDateTime.getMonth();
+            
+            if (months < 0) {
+                years--;
+                months += 12;
+            }
+            
+            if (now.getDate() < startDateTime.getDate()) {
+                months--;
+                if (months < 0) {
+                    years--;
+                    months += 12;
+                }
+            }
+
+            // Atualiza a interface
+            document.getElementById('years').textContent = years;
+            document.getElementById('months').textContent = months;
+            document.getElementById('days').textContent = days;
+            document.getElementById('hours').textContent = hours % 24;
+            document.getElementById('minutes').textContent = String(minutes % 60).padStart(2, '0');
+            document.getElementById('seconds').textContent = String(seconds % 60).padStart(2, '0');
+        }
+
+        function formatStartDate(date) {
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            return 'Desde ' + date.toLocaleDateString('pt-BR', options);
+        }
+
+        function editSettings() {
+            if (confirm('Deseja realmente editar as configurações?')) {
+                clearInterval(counterInterval);
+                document.getElementById('counterScreen').classList.add('hidden');
+                document.getElementById('setupScreen').classList.remove('hidden');
+                
+                // Preenche os campos com os dados atuais
+                const saved = JSON.parse(localStorage.getItem('loveCounterData'));
+                const date = new Date(saved.startDateTime);
+                document.getElementById('startDate').value = date.toISOString().split('T')[0];
+                document.getElementById('startTime').value = date.toTimeString().slice(0, 5);
+            }
+        }
+
+        // Registra Service Worker para funcionar offline
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js').catch(() => {});
+        }
+    </script>
+</body>
+</html>
